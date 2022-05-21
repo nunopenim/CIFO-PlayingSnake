@@ -1,4 +1,5 @@
 from Snake_Game import *
+
 from neural_network import *
 
 def run_game_with_ML(display, clock, weights):
