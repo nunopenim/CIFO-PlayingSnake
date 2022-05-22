@@ -3,6 +3,9 @@ from play_the_game import machine_play
 from Snake_Game import display, clock
 from random import randint
 
+# This is for crossover tuning adjustments, higher means a finer selection, lower means coarser
+BREEDING_TUNING_VALUE = 100
+
 
 class NN:
     in_layer = 5
@@ -88,14 +91,14 @@ class GeneticAlg:
             for j in range(weights):
                 # Basically, here I am choosing to get a random number with equal probabilities, then if lower
                 # than half, we choose the chromosome from the first parent, otherwise the second parent.
-                if randint(0, 1000) < 500:
+                if randint(0, BREEDING_TUNING_VALUE) < BREEDING_TUNING_VALUE/2:
                     offspring[k, j] = parents[parent1, j]
                 else:
                     offspring[k, j] = parents[parent2, j]
 
         return np.array(offspring)
 
-    # Mutation
+    # Mutation - this still needs a bit of work
     @staticmethod
     def chernobyl(offspring):
         mutated_offspring = offspring.copy()
