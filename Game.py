@@ -1,6 +1,6 @@
 from Snake_Game import *
 
-from neural_network import *
+from brain import NN
 
 def run_game_with_ML(display, clock, weights):
     max_score = 0
@@ -22,7 +22,7 @@ def run_game_with_ML(display, clock, weights):
             angle, snake_direction_vector, apple_direction_vector_normalized, snake_direction_vector_normalized = angle_with_apple(
                 snake_position, apple_position)
             predictions = []
-            predicted_direction = np.argmax(np.array(forward_propagation(np.array(
+            predicted_direction = np.argmax(np.array(NN.forward_propagation(np.array(
                 [is_left_blocked, is_front_blocked, is_right_blocked, apple_direction_vector_normalized[0],
                  snake_direction_vector_normalized[0], apple_direction_vector_normalized[1],
                  snake_direction_vector_normalized[1]]).reshape(-1, 7), weights))) - 1
