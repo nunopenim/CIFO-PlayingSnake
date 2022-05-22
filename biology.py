@@ -49,6 +49,14 @@ class NN:
 
 
 class GeneticAlg:
+
+    # Generates a random population, used on the start of each run
+    @staticmethod
+    def generate_random_population(size):
+        # population = random.choice(np.arange(-1, 1, step=0.01))  # you donut, this needs to be with np.random!
+        population = np.random.choice(np.arange(-1, 1, step=0.01), size=size, replace=True)
+        return np.array(population)
+
     # Compute Fitness
     @staticmethod
     def calc_fitness(population):
