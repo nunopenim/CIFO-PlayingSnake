@@ -30,7 +30,7 @@ for gen in range(ngenerations):
 
     # Fitness
     fitness = GeneticAlg.calc_fitness(population)
-    print("Fittest chromosome value: " + np.max(fitness))
+    print("Fittest chromosome value: " + str(np.max(fitness)))
 
     # Get the best parents and breed them
     parents = GeneticAlg.natural_selection(population, fitness, n_parents_mating)
