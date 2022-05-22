@@ -42,3 +42,4 @@ for gen in range(ngenerations):
     # Population Update
     population[0:parents.shape[0], :] = parents
     population[parents.shape[0]:, :] = mutant_kids
+
