@@ -1,5 +1,5 @@
 from Snake_Game import *
-from brain import NN
+from biology import NN
 
 def machine_play(display, clock, weights):
     max_score = 0
