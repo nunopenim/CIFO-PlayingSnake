@@ -58,7 +58,7 @@ class GeneticAlg:
     @staticmethod
     def generate_random_population(size):
         # population = random.choice(np.arange(-1, 1, step=0.01))  # you donut, this needs to be with np.random!
-        population = np.random.choice(np.arange(0, 2, step=1), size=size, replace=True)
+        population = np.random.choice(np.arange(-1, 1, step=0.01), size=size, replace=True)
         return np.array(population)
 
     # Compute Fitness
@@ -118,17 +118,14 @@ class GeneticAlg:
         # We select a random individual from the pool, then a random chromosome, and mutate it
         for idx in range(offspring.shape[0]):
 
-            # 50/50 chance of mutation of the individual
+            # 50/50 chance of mutation
             if randint(0, 100) < 50:
                 continue
 
             # Mutation
             rand = randint(0, offspring.shape[1] - 1)
-            random_value = np.random.choice(np.arange(0, 2, step=1), size=1, replace=False)
-            if offspring[idx, rand] == 0:
-                mutated_offspring[idx, rand] = offspring[idx, rand] + random_value
-            else:
-                mutated_offspring[idx, rand] = offspring[idx, rand] - random_value
+            random_value = np.random.choice(np.arange(-1, 1, step=0.001), size=1, replace=False)
+            mutated_offspring[idx, rand] = offspring[idx, rand] + random_value
         return mutated_offspring
 
 
