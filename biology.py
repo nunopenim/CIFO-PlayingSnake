@@ -117,8 +117,13 @@ class GeneticAlg:
 
         # We select a random individual from the pool, then a random chromosome, and mutate it
         for idx in range(offspring.shape[0]):
-            for i in range(25):
-                rand = randint(0, offspring.shape[1] - 1)
+
+            # 50/50 chance of mutation
+            if randint(0, 100) < 50:
+                continue
+
+            # Mutation
+            rand = randint(0, offspring.shape[1] - 1)
             random_value = np.random.choice(np.arange(-1, 1, step=0.001), size=1, replace=False)
             mutated_offspring[idx, rand] = offspring[idx, rand] + random_value
         return mutated_offspring
