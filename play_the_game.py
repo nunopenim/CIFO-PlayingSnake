@@ -60,6 +60,4 @@ def machine_play(display, clock, weights):
             else:
                 score2 += 2
 
-
     return score1 + score2 + max_score * 5000
-
