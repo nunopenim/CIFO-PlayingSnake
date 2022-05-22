@@ -1,5 +1,6 @@
 import numpy as np
 from random import randint
+import sys
 
 # Game Stuff
 from Snake_Game import display, clock
@@ -78,7 +79,7 @@ class GeneticAlg:
         for parent_num in range(nparents):
             max_fitness_idx = np.where(fitness == np.max(fitness))[0][0]
             parents[parent_num, :] = population[max_fitness_idx, :]
-            fitness[max_fitness_idx] = int(float('-Inf'))
+            fitness[max_fitness_idx] = -sys.maxsize
         return np.array(parents)
 
     # Crossover
