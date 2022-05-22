@@ -10,14 +10,14 @@ BREEDING_TUNING_VALUE = 100
 
 
 class NN:
-    in_layer = 5
-    hidden1 = 25
-    hidden2 = 10
-    out_layer = 1
+    in_layer = 7  # the in-layer needs to be 7 because of 7 parameters in
+    hidden1 = 14  # this one is double the other for no specific reason
+    hidden2 = 28  # same as previous
+    out_layer = 4  # just a smaller number I guess
 
-    weight1_shape = (25, 5)
-    weight2_shape = (10, 25)
-    weight3_shape = (1, 10)
+    weight1_shape = (14, 7)
+    weight2_shape = (28, 14)
+    weight3_shape = (4, 28)
 
     # Auxiliary
     @staticmethod
