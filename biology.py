@@ -1,6 +1,5 @@
 import numpy as np
 from random import randint
-import sys
 
 # Game Stuff
 from Snake_Game import display, clock
@@ -9,6 +8,8 @@ from Snake_Game import starting_positions, blocked_directions, angle_with_apple,
 # This is for crossover tuning adjustments, higher means a finer selection, lower means coarser
 BREEDING_TUNING_VALUE = 100
 
+# Auxiliary stuff
+VERY_SMALL_NUMBER = -2147483646  # This has to be a C Long for numpy to be happy, otherwise Overflow!
 
 class NN:
     in_layer = 7  # the in-layer needs to be 7 because of 7 parameters in
@@ -79,16 +80,16 @@ class GeneticAlg:
         for parent_num in range(nparents):
             max_fitness_idx = np.where(fitness == np.max(fitness))[0][0]
             parents[parent_num, :] = population[max_fitness_idx, :]
-            fitness[max_fitness_idx] = -sys.maxsize
-        return np.array(parents)
+            fitness[max_fitness_idx] = VERY_SMALL_NUMBER
+        return parents
 
     # Crossover
     @staticmethod
     def breeding(parents, size):
         offspring_size = size[0]
         weights = size[1]
-        offspring = np.empty(offspring_size)
-        for k in range(size):
+        offspring = np.empty(size)
+        for k in range(offspring_size):
 
             # We get 2 random different parents
             parent1 = randint(0, parents.shape[0] - 1)
@@ -107,7 +108,7 @@ class GeneticAlg:
                 else:
                     offspring[k, j] = parents[parent2, j]
 
-        return np.array(offspring)
+        return offspring
 
     # Mutation - this still needs a bit of work
     @staticmethod
