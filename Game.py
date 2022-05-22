@@ -1,8 +1,7 @@
 from Snake_Game import *
-
 from brain import NN
 
-def run_game_with_ML(display, clock, weights):
+def machine_play(display, clock, weights):
     max_score = 0
     avg_score = 0
     test_games = 1
@@ -63,3 +62,4 @@ def run_game_with_ML(display, clock, weights):
 
 
     return score1 + score2 + max_score * 5000
+
