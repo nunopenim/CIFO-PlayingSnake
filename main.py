@@ -14,7 +14,7 @@ nweights = NN.in_layer * NN.hidden1 + NN.hidden1 * NN.hidden2 + NN.hidden2 * NN.
 # population and lifespan
 p_size = (nchromosomes, nweights)
 population = GeneticAlg.generate_random_population(p_size)
-ngenerations = 100
+ngenerations = 200
 n_parents_mating = 6  # it should be an even number!
 
 # Order to remember for the nature, as we already have a random population selected before the nature run:
