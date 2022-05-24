@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import numpy as np
+import random
 
 from Snake_Game import collision_with_boundaries, generate_button_direction, collision_with_self, starting_positions, \
     blocked_directions, angle_with_apple, play_game, display, clock
@@ -23,10 +24,17 @@ def get_neighbours(self):
     n = [deepcopy(self.representation) for i in range(len(self.representation))]
 
     for count, i in enumerate(n):
-        if i[count] == 1:
-            i[count] = 0
-        elif i[count] == 0:
-            i[count] = 1
+        if i[count] == -1:
+            i[count] = -0.99
+        elif i[count] == 0.99:
+            i[count] = 0.98
+        else:
+            roll = random.randint(1, 100)
+
+            if roll <= 50:
+                i[count] = i[count] - 0.01
+            elif roll >= 51:
+                i[count] = i[count] + 0.01
 
     n = [Individual(i) for i in n]
     return n
@@ -59,7 +67,6 @@ def machine_play(display, clock, weights):
                  snake_direction_vector_normalized[0], apple_direction_vector_normalized[1],
                  snake_direction_vector_normalized[1]]).reshape(-1, 7), weights))) - 1
 
-
             if predicted_direction == prev_direction:
                 count_same_direction += 1
             else:
@@ -77,7 +84,7 @@ def machine_play(display, clock, weights):
             next_step = snake_position[0] + current_direction_vector
             if collision_with_boundaries(snake_position[0]) == 1 or collision_with_self(next_step.tolist(),
                                                                                         snake_position) == 1:
-                score1 += -150
+                score1 += -10
                 break
 
             else:
@@ -90,8 +97,12 @@ def machine_play(display, clock, weights):
                 max_score = score
 
             if count_same_direction > 8 and predicted_direction != 0:
-                score2 -= 1
+                score2 -= 0
             else:
-                score2 += 2
+                score2 += 0
+    finalScore = score1 + score2 + max_score * 10
 
-    return score1 + score2 + max_score * 5000
+    if finalScore < 0:
+        return 1
+    else:
+        return finalScore

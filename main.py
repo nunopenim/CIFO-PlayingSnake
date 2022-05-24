@@ -75,10 +75,10 @@ def implementation2():
     Individual.get_neighbours = get_neighbours
 
     pop = Population(
-        size=40, optim="max", sol_size=p_size[1], valid_set=np.arange(-1, 1, step=0.01), replacement=True
+        size=20, optim="max", sol_size=p_size[1], valid_set=np.arange(-1, 1, step=0.01), replacement=True
     )
 
-    pop.evolve(gens=100,
+    pop.evolve(gens=200,
                select=fps,
                crossover=single_point_co,
                mutate=inversion_mutation,
