@@ -2,6 +2,7 @@ import random
 import math
 import numpy as np
 import pygame
+highScore = 0
 
 def display_snake(snake_position, display):
     for position in snake_position:
@@ -166,7 +167,10 @@ def play_game(snake_start, snake_position, apple_position, button_direction, sco
 
         snake_position, apple_position, score = generate_snake(snake_start, snake_position, apple_position,
                                                                button_direction, score)
-        pygame.display.set_caption("SCORE: " + str(score))
+        global highScore
+        if highScore < score:
+            highScore = score
+        pygame.display.set_caption("SCORE: " + str(score) + "       HIGH SCORE: " + str(highScore))
         pygame.display.update()
         clock.tick(50000)
 

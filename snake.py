@@ -22,16 +22,16 @@ def get_neighbours(self):
 
     for count, i in enumerate(n):
         if i[count] == -1:
-            i[count] = -0.99
-        elif i[count] == 0.99:
-            i[count] = 0.98
+            i[count] = -0.999
+        elif i[count] == 1:
+            i[count] = 0.999
         else:
             roll = random.randint(1, 100)
 
             if roll <= 50:
-                i[count] = i[count] - 0.01
+                i[count] = i[count] - 0.001
             elif roll >= 51:
-                i[count] = i[count] + 0.01
+                i[count] = i[count] + 0.001
 
     n = [Individual(i) for i in n]
     return n

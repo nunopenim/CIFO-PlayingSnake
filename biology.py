@@ -3,7 +3,8 @@ from random import randint
 
 # Game Stuff
 from Snake_Game import display, clock
-from Snake_Game import starting_positions, blocked_directions, angle_with_apple, generate_button_direction, collision_with_boundaries, collision_with_self, play_game
+from Snake_Game import starting_positions, blocked_directions, angle_with_apple, generate_button_direction, \
+    collision_with_boundaries, collision_with_self, play_game
 
 # This is for crossover tuning adjustments, higher means a finer selection, lower means coarser
 BREEDING_TUNING_VALUE = 100
@@ -11,10 +12,11 @@ BREEDING_TUNING_VALUE = 100
 # Auxiliary stuff
 VERY_SMALL_NUMBER = -2147483646  # This has to be a C Long for numpy to be happy, otherwise Overflow!
 
+
 class NN:
     in_layer = 7  # the in-layer needs to be 7 because of 7 parameters in
-    hidden1 = 14  # this one is double the other for no specific reason
-    hidden2 = 28  # same as previous
+    hidden1 = 32  # this one is double the other for no specific reason
+    hidden2 = 64  # same as previous
     out_layer = 3  # just a smaller number I guess
 
     weight1_shape = (hidden1, in_layer)
@@ -29,7 +31,8 @@ class NN:
     @staticmethod
     def weights(i):
         weight1 = i[0:NN.weight1_shape[0] * NN.weight1_shape[1]]
-        weight2 = i[NN.weight1_shape[0] * NN.weight1_shape[1]:NN.weight2_shape[0] * NN.weight2_shape[1] + NN.weight1_shape[0] * NN.weight1_shape[1]]
+        weight2 = i[NN.weight1_shape[0] * NN.weight1_shape[1]:NN.weight2_shape[0] * NN.weight2_shape[1] +
+                                                              NN.weight1_shape[0] * NN.weight1_shape[1]]
         weight3 = i[NN.weight2_shape[0] * NN.weight2_shape[1] + NN.weight1_shape[0] * NN.weight1_shape[1]:]
 
         return \
@@ -103,7 +106,7 @@ class GeneticAlg:
             for j in range(weights):
                 # Basically, here I am choosing to get a random number with equal probabilities, then if lower
                 # than half, we choose the chromosome from the first parent, otherwise the second parent.
-                if randint(0, BREEDING_TUNING_VALUE) < BREEDING_TUNING_VALUE/2:
+                if randint(0, BREEDING_TUNING_VALUE) < BREEDING_TUNING_VALUE / 2:
                     offspring[k, j] = parents[parent1, j]
                 else:
                     offspring[k, j] = parents[parent2, j]
@@ -135,9 +138,9 @@ def machine_play(display, clock, weights):
     max_score = 0
     avg_score = 0
     test_games = 1
-    score1 = 0
+    frame_score = 0
     steps_per_game = 2500
-    score2 = 0
+    noApple = 0
 
     for _ in range(test_games):
 
@@ -145,7 +148,7 @@ def machine_play(display, clock, weights):
 
         count_same_direction = 0
         prev_direction = 0
-        noApple = 0
+
 
         for _ in range(steps_per_game):
             current_direction_vector, is_front_blocked, is_left_blocked, is_right_blocked = blocked_directions(
@@ -175,11 +178,10 @@ def machine_play(display, clock, weights):
             next_step = snake_position[0] + current_direction_vector
             if collision_with_boundaries(snake_position[0]) == 1 or collision_with_self(next_step.tolist(),
                                                                                         snake_position) == 1:
-                score1 += -10
                 break
 
             else:
-                score1 += 0
+                frame_score += 1
 
             snake_position, apple_position, score = play_game(snake_start, snake_position, apple_position,
                                                               button_direction, score, display, clock)
@@ -189,17 +191,27 @@ def machine_play(display, clock, weights):
                 noApple = 0
             else:
                 noApple += 1
-                # STOP IF NO APPLE FOR * TURNS
-            if noApple >= 50:
-                score1 += -10
+
+            # STOP IF NO APPLE FOR * TURNS
+            if noApple >= 150:
                 break
 
             if count_same_direction > 8 and predicted_direction != 0:
-                score2 -= 0
+                pass
             else:
-                score2 += 0
-    #finalScore = score1 + score2 + max_score * 10
-    finalScore = (max_score*2)**2
+                pass
+
+    # Subtract the number of frames since the last fruit was eaten from the fitness
+    # This is to discourage snakes from trying to gain fitness by avoiding fruit
+    if noApple >= 150:
+        frame_score = frame_score - noApple
+
+    # Ensure we do not multiply fitness by a factor of 0
+    if frame_score <= 0:
+        frame_score = 1
+
+    # finalScore = score1 + score2 + max_score * 10
+    finalScore = (max_score * 2) ** 2 * (frame_score ** 0.15)
 
     if finalScore < 0:
         return 1
