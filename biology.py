@@ -193,7 +193,7 @@ def machine_play(display, clock, weights):
                 noApple += 1
 
             # STOP IF NO APPLE FOR * TURNS
-            if noApple >= 150:
+            if noApple >= 500:
                 break
 
             if count_same_direction > 8 and predicted_direction != 0:
