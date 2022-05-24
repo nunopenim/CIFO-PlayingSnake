@@ -15,11 +15,11 @@ class NN:
     in_layer = 7  # the in-layer needs to be 7 because of 7 parameters in
     hidden1 = 14  # this one is double the other for no specific reason
     hidden2 = 28  # same as previous
-    out_layer = 4  # just a smaller number I guess
+    out_layer = 3  # just a smaller number I guess
 
-    weight1_shape = (14, 7)
-    weight2_shape = (28, 14)
-    weight3_shape = (4, 28)
+    weight1_shape = (hidden1, in_layer)
+    weight2_shape = (hidden2, hidden1)
+    weight3_shape = (out_layer, hidden2)
 
     # Auxiliary
     @staticmethod
@@ -131,6 +131,7 @@ class GeneticAlg:
 
 # Intelligence and fitness function
 def machine_play(display, clock, weights):
+    weights = np.array(weights)
     max_score = 0
     avg_score = 0
     test_games = 1
@@ -139,10 +140,12 @@ def machine_play(display, clock, weights):
     score2 = 0
 
     for _ in range(test_games):
+
         snake_start, snake_position, apple_position, score = starting_positions()
 
         count_same_direction = 0
         prev_direction = 0
+        noApple = 0
 
         for _ in range(steps_per_game):
             current_direction_vector, is_front_blocked, is_left_blocked, is_right_blocked = blocked_directions(
@@ -172,7 +175,7 @@ def machine_play(display, clock, weights):
             next_step = snake_position[0] + current_direction_vector
             if collision_with_boundaries(snake_position[0]) == 1 or collision_with_self(next_step.tolist(),
                                                                                         snake_position) == 1:
-                score1 += -150
+                score1 += -10
                 break
 
             else:
@@ -183,10 +186,22 @@ def machine_play(display, clock, weights):
 
             if score > max_score:
                 max_score = score
+                noApple = 0
+            else:
+                noApple += 1
+                # STOP IF NO APPLE FOR * TURNS
+            if noApple >= 50:
+                score1 += -10
+                break
 
             if count_same_direction > 8 and predicted_direction != 0:
-                score2 -= 1
+                score2 -= 0
             else:
-                score2 += 2
+                score2 += 0
+    #finalScore = score1 + score2 + max_score * 10
+    finalScore = (max_score*2)**2
 
-    return score1 + score2 + max_score * 5000
+    if finalScore < 0:
+        return 1
+    else:
+        return finalScore

@@ -1,18 +1,15 @@
 import random
-import random
-import time
 import math
-from tqdm import tqdm
 import numpy as np
 import pygame
 
 def display_snake(snake_position, display):
     for position in snake_position:
-        pygame.draw.rect(display, (255, 0, 0), pygame.Rect(position[0], position[1], 10, 10))
+        pygame.draw.rect(display, (0, 255, 0), pygame.Rect(position[0], position[1], 10, 10))
 
 
 def display_apple(apple_position, display):
-    pygame.draw.rect(display, (0, 255, 0), pygame.Rect(apple_position[0], apple_position[1], 10, 10))
+    pygame.draw.rect(display, (255, 0, 0), pygame.Rect(apple_position[0], apple_position[1], 10, 10))
 
 
 def starting_positions():

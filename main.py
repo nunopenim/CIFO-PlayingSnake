@@ -6,9 +6,9 @@ from biology import GeneticAlg, NN
 
 # charles imports
 from charles.charles import Individual, Population
-from charles.crossover import single_point_co
+from charles.crossover import single_point_co, arithmetic_co, pmx_co, cycle_co
 from charles.mutation import inversion_mutation
-from charles.selection import fps
+from charles.selection import fps, tournament
 
 # snake imports (implementation2)
 from snake import get_fitness, get_neighbours
@@ -64,21 +64,20 @@ def implementation1():
 
 
 def implementation2():
-    nchromosomes = 46
+    nchromosomes = 100
     nweights = NN.in_layer * NN.hidden1 + NN.hidden1 * NN.hidden2 + NN.hidden2 * NN.out_layer
 
     # population and lifespan
-    p_size = (nchromosomes, nweights)
 
     # Monkey Patching
     Individual.get_fitness = get_fitness
     Individual.get_neighbours = get_neighbours
 
     pop = Population(
-        size=20, optim="max", sol_size=p_size[1], valid_set=np.arange(-1, 1, step=0.01), replacement=True
+        size=nchromosomes, optim="max", sol_size=nweights, valid_set=(np.arange(-1, 1, step=0.01)).tolist(), replacement=True
     )
 
-    pop.evolve(gens=200,
+    pop.evolve(gens=1500,
                select=fps,
                crossover=single_point_co,
                mutate=inversion_mutation,
