@@ -7,7 +7,7 @@ from biology import GeneticAlg, NN
 # charles imports
 from charles.charles import Individual, Population
 from charles.crossover import single_point_co, arithmetic_co, pmx_co, cycle_co
-from charles.mutation import inversion_mutation
+from charles.mutation import inversion_mutation, swap_mutation
 from charles.selection import fps, tournament
 
 # snake imports (implementation2)
@@ -85,6 +85,29 @@ def implementation2():
                elitism=True)
 
 
+def implementation3():
+    nchromosomes = 200
+    nweights = NN.in_layer * NN.hidden1 + NN.hidden1 * NN.hidden2 + NN.hidden2 * NN.out_layer
+
+    # population and lifespan
+
+    # Monkey Patching
+    Individual.get_fitness = get_fitness
+    Individual.get_neighbours = get_neighbours
+
+    pop = Population(
+        size=nchromosomes, optim="max", sol_size=nweights, valid_set=(np.arange(-1, 1.001, step=0.001)).tolist(), replacement=True
+    )
+
+    pop.evolve(gens=15000,
+               select=tournament,
+               crossover=arithmetic_co,
+               mutate=swap_mutation,
+               co_p=0.9, mu_p=0.1,
+               elitism=True)
+
+
 # UNCOMMENT WHICH VERSION YOU WANT TO RUN
 #implementation1()
-implementation2()
+#implementation2()
+implementation3()
