@@ -64,7 +64,7 @@ def implementation1():
 
 
 def implementation2():
-    nchromosomes = 100
+    nchromosomes = 200
     nweights = NN.in_layer * NN.hidden1 + NN.hidden1 * NN.hidden2 + NN.hidden2 * NN.out_layer
 
     # population and lifespan

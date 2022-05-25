@@ -170,6 +170,7 @@ def play_game(snake_start, snake_position, apple_position, button_direction, sco
         global highScore
         if highScore < score:
             highScore = score
+            print("NEW HIGH SCORE!: " + str(highScore))
         pygame.display.set_caption("SCORE: " + str(score) + "       HIGH SCORE: " + str(highScore))
         pygame.display.update()
         clock.tick(50000)
