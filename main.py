@@ -39,7 +39,7 @@ def implementation1():
     # population and lifespan
     p_size = (nchromosomes, nweights)
     population = GeneticAlg.generate_random_population(p_size)
-    ngenerations = 100
+    ngenerations = 50
     n_parents_mating = 6  # it should be an even number!
 
     for gen in range(ngenerations):
@@ -77,7 +77,7 @@ def implementation2():
         size=nchromosomes, optim="max", sol_size=nweights, valid_set=(np.arange(-1, 1.001, step=0.001)).tolist(), replacement=True
     )
 
-    pop.evolve(gens=100,
+    pop.evolve(gens=50,
                select=fps,
                crossover=single_point_co,
                mutate=inversion_mutation,
@@ -99,7 +99,7 @@ def implementation3():
         size=nchromosomes, optim="max", sol_size=nweights, valid_set=(np.arange(-1, 1.001, step=0.001)).tolist(), replacement=True
     )
 
-    pop.evolve(gens=100,
+    pop.evolve(gens=50,
                select=tournament,
                crossover=arithmetic_co,
                mutate=swap_mutation,
