@@ -213,7 +213,7 @@ def machine_play(display, clock, weights):
     # finalScore = score1 + score2 + max_score * 10
     finalScore = (max_score * 2) ** 2 * (frame_score ** 0.15)
 
-    if finalScore < 0:
+    if finalScore <= 0:
         return 1
     else:
         return finalScore
