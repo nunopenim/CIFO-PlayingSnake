@@ -171,6 +171,9 @@ def play_game(snake_start, snake_position, apple_position, button_direction, sco
         if highScore < score:
             highScore = score
             print("NEW HIGH SCORE!: " + str(highScore))
+            with open('output.txt', 'a') as f:
+                f.write("NEW HIGH SCORE!: " + str(highScore))
+                f.write("\n")
         pygame.display.set_caption("SCORE: " + str(score) + "       HIGH SCORE: " + str(highScore))
         pygame.display.update()
         clock.tick(50000)

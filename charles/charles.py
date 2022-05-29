@@ -95,6 +95,9 @@ class Population:
 
             if self.optim == "max":
                 print(f'Best Individual: {max(self, key=attrgetter("fitness"))}')
+                with open('output.txt', 'a') as f:
+                    f.write(f'Best Individual: {max(self, key=attrgetter("fitness"))}')
+                    f.write("\n")
             elif self.optim == "min":
                 print(f'Best Individual: {min(self, key=attrgetter("fitness"))}')
 

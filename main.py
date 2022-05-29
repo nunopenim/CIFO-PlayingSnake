@@ -33,14 +33,14 @@ from snake import get_fitness, get_neighbours
 def implementation1():
 
     # humans have 23 pairs, right? so total of 46 chromosomes? dont know, I am gonna start with that
-    nchromosomes = 46
+    nchromosomes = 200
     nweights = NN.in_layer * NN.hidden1 + NN.hidden1 * NN.hidden2 + NN.hidden2 * NN.out_layer
 
     # population and lifespan
     p_size = (nchromosomes, nweights)
     population = GeneticAlg.generate_random_population(p_size)
     ngenerations = 50
-    n_parents_mating = 6  # it should be an even number!
+    n_parents_mating = 10  # it should be an even number!
 
     for gen in range(ngenerations):
         print("Current generation: " + str(gen))
@@ -48,6 +48,10 @@ def implementation1():
         # Fitness
         fitness = GeneticAlg.calc_fitness(population)
         print("Fittest chromosome value: " + str(np.max(fitness)))
+
+        with open('output.txt', 'a') as f:
+            f.write("Current generation: " + str(gen)+"\n")
+            f.write("Fittest chromosome value: " + str(np.max(fitness)) + "\n")
 
         # Selection
         parents = GeneticAlg.natural_selection(population, fitness, n_parents_mating)
@@ -108,6 +112,25 @@ def implementation3():
 
 
 # UNCOMMENT WHICH VERSION YOU WANT TO RUN
-#implementation1()
-implementation2()
-#implementation3()
+with open('output.txt', 'a') as f:
+    f.write("IMPLEMENTATION1\n\n")
+for i in range(10):
+    implementation1()
+    with open('output.txt', 'a') as f:
+        f.write("\n\nNEXT\n\n")
+
+
+with open('output.txt', 'a') as f:
+    f.write("IMPLEMENTATION2\n\n")
+for i in range(10):
+    implementation2()
+    with open('output.txt', 'a') as f:
+        f.write("\n\nNEXT\n\n")
+
+
+with open('output.txt', 'a') as f:
+    f.write("IMPLEMENTATION3\n\n")
+for i in range(10):
+    implementation3()
+    with open('output.txt', 'a') as f:
+        f.write("\n\nNEXT\n\n")
